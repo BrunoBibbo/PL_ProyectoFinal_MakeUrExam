@@ -44,6 +44,10 @@ tiporespuesta
 		{ 
 			$$ = { Tipo: $1, Contenido: $2 };
 		}
+	| MULTI respuestas_multi
+	        { 
+			$$ = { Tipo: $1, Contenido: $2 }; 
+		}
 	;
 
 respuesta
@@ -59,6 +63,19 @@ respuestas_vf
 			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
 		}
 	| F ID respuestas_vf
+		{ 
+			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
+		}
+	;
+	
+respuestas_multi
+	: /* empty */
+		{ $$ = []; }
+	| V ID respuestas_multi
+		{ 
+			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
+		}
+	| F ID respuestas_multi
 		{ 
 			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
 		}
