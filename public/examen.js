@@ -74,9 +74,9 @@
 var examen = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"test":3,"examen":4,"PUNTO":5,"EXAMEN":6,"ID":7,"preguntas":8,"pregunta":9,"PREGUNTA":10,"LEFTQ":11,"RIGHTQ":12,"tiporespuesta":13,"TEXTO":14,"respuesta":15,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"PUNTO",6:"EXAMEN",7:"ID",10:"PREGUNTA",11:"LEFTQ",12:"RIGHTQ",14:"TEXTO"},
-productions_: [0,[3,2],[4,3],[8,1],[9,6],[9,5],[9,4],[9,3],[13,2],[15,1]],
+symbols_: {"error":2,"test":3,"examen":4,"PUNTO":5,"EXAMEN":6,"ID":7,"preguntas":8,"pregunta":9,"PREGUNTA":10,"LEFTQ":11,"RIGHTQ":12,"tiporespuesta":13,"TEXTO":14,"respuesta":15,"VF":16,"respuestas_vf":17,"V":18,"F":19,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"PUNTO",6:"EXAMEN",7:"ID",10:"PREGUNTA",11:"LEFTQ",12:"RIGHTQ",14:"TEXTO",16:"VF",18:"V",19:"F"},
+productions_: [0,[3,2],[4,3],[8,1],[9,6],[9,5],[9,4],[9,3],[13,2],[13,2],[15,1],[17,0],[17,3],[17,3]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -103,12 +103,26 @@ case 7: this.$ = { Pregunta: $$[$0-1], Respuestas: $$[$0] };
 break;
 case 8: this.$ = { Tipo: $$[$0-1], Contenido: $$[$0] }; 
 break;
-case 9: this.$ = $$[$0]; 
+case 9: 
+			this.$ = { Tipo: $$[$0-1], Contenido: $$[$0] };
+		
+break;
+case 10: this.$ = $$[$0]; 
+break;
+case 11: this.$ = []; 
+break;
+case 12: 
+			this.$ = [{ Tipo: $$[$0-2], Respuesta: $$[$0-1] }].concat($$[$0]);
+		
+break;
+case 13: 
+			this.$ = [{ Tipo: $$[$0-2], Respuesta: $$[$0-1] }].concat($$[$0]);
+		
 break;
 }
 },
-table: [{3:1,4:2,6:[1,3]},{1:[3]},{5:[1,4]},{7:[1,5]},{1:[2,1]},{8:6,9:7,10:[1,8]},{5:[2,2]},{5:[2,3]},{7:[1,10],11:[1,9]},{7:[1,11]},{13:12,14:[1,13]},{12:[1,14]},{5:[2,7],9:15,10:[1,8]},{7:[1,17],15:16},{13:18,14:[1,13]},{5:[2,6]},{5:[2,8],10:[2,8]},{5:[2,9],10:[2,9]},{5:[2,5],9:19,10:[1,8]},{5:[2,4]}],
-defaultActions: {4:[2,1],6:[2,2],7:[2,3],15:[2,6],19:[2,4]},
+table: [{3:1,4:2,6:[1,3]},{1:[3]},{5:[1,4]},{7:[1,5]},{1:[2,1]},{8:6,9:7,10:[1,8]},{5:[2,2]},{5:[2,3]},{7:[1,10],11:[1,9]},{7:[1,11]},{13:12,14:[1,13],16:[1,14]},{12:[1,15]},{5:[2,7],9:16,10:[1,8]},{7:[1,18],15:17},{5:[2,11],10:[2,11],17:19,18:[1,20],19:[1,21]},{13:22,14:[1,13],16:[1,14]},{5:[2,6]},{5:[2,8],10:[2,8]},{5:[2,10],10:[2,10]},{5:[2,9],10:[2,9]},{7:[1,23]},{7:[1,24]},{5:[2,5],9:25,10:[1,8]},{5:[2,11],10:[2,11],17:26,18:[1,20],19:[1,21]},{5:[2,11],10:[2,11],17:27,18:[1,20],19:[1,21]},{5:[2,4]},{5:[2,12],10:[2,12]},{5:[2,13],10:[2,13]}],
+defaultActions: {4:[2,1],6:[2,2],7:[2,3],16:[2,6],25:[2,4]},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
         this.trace(str);

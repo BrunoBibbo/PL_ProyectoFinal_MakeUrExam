@@ -40,9 +40,26 @@ pregunta
 tiporespuesta
 	: TEXTO respuesta
 		{ $$ = { Tipo: $1, Contenido: $2 }; }
+	| VF respuestas_vf
+		{ 
+			$$ = { Tipo: $1, Contenido: $2 };
+		}
 	;
 
 respuesta
 	: ID
 		{ $$ = $1; }
+	;
+	
+respuestas_vf
+	: /* empty */
+		{ $$ = []; }
+	| V ID respuestas_vf
+		{ 
+			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
+		}
+	| F ID respuestas_vf
+		{ 
+			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
+		}
 	;
