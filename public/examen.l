@@ -9,11 +9,11 @@ function idORrw(x) {
 %}
 %%
 
-\s+|\#.*                         /* skip whitespace and comments */
-"¿"				  return 'LEFTQ'
-"?"				  return 'RIGHTQ'
-":"				  return 'DOSPUNTOS'
-\b([A-Z]+|[A-Z]?(([a-z]+|([+-]?\d+("."\d*)?([eE][-+]?\d+)?))\s?)*)\b                 return idORrw(yytext)
-[-*/+^!%=();]                    return yytext;
-<<EOF>>                          return 'EOF'
-"."             	          return 'PUNTO'
+\s+|\#.*                         											/* skip whitespace and comments */
+"¿"				  															return 'LEFTQ'
+"?"				  															return 'RIGHTQ'
+":"				  															return 'DOSPUNTOS'
+\b([A-Z]+|[A-Z]?(([a-z]+|([+-]?\d+("."\d*)?([eE][-+]?\d+)?))\s?)*)\b        return idORrw(yytext)
+[-*/+^!%=();]                    											return yytext;
+<<EOF>>                          											return 'EOF'
+"."             	          												return 'PUNTO'
