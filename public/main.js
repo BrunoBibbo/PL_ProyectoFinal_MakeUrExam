@@ -10,8 +10,18 @@ $(document).ready(function() {
 			for(i = 2; i <= result[1].length; i++)
 				formulario.push(document.getElementsByName(i.toString()));
 		
-			console.log(formulario);
-			console.log(result[1]);
+			var tipoRespuesta;
+
+			var cuantasV = 0;
+			var contadorV = 0;
+	  
+			var resultado = 0;
+	  
+			var evitarError = "<div class='fin' align=left><br><p> El resultado obtenido ha sido de ".concat(resultado.toString().concat(" puntos.</p></div>"));
+	  
+			var resultadoTotal = result[0] + evitarError;
+	  
+			$('#output').html(JSON.stringify(resultadoTotal,undefined,2));
 	  
 		} catch (e) {
 			$('#output').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
