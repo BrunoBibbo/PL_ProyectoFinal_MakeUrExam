@@ -32,7 +32,7 @@ $(document).ready(function() {
 					}
 		  
 					if(tipoRespuesta == 'multi')
-						if(contadorV > contadorF)
+						if(contadorV > 0)
 							resultado = resultado + (contadorV/cuantasV);
 				
 					if(tipoRespuesta == 'vf')
