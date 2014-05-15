@@ -14,7 +14,6 @@ $(document).ready(function() {
 
 			var cuantasV = 0;
 			var contadorV = 0;
-			var contadorF = 0;
 	  
 			for(i = 0; i < result[1].length; i++){
 				if(formulario[i].length > 1){
@@ -27,8 +26,6 @@ $(document).ready(function() {
 							cuantasV++;
 						if(formulario[i][j].checked == true && formulario[i][j].value != 'F' && formulario[i][j].value != 'FM')
 							contadorV++;
-						if(formulario[i][j].checked == true && formulario[i][j].value == 'F' || formulario[i][j].value == 'FM')
-							contadorF++;
 					}
 		  
 					if(tipoRespuesta == 'multi')
