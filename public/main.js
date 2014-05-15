@@ -14,6 +14,8 @@ $(document).ready(function() {
 
 			var cuantasV = 0;
 			var contadorV = 0;
+			
+			var resultado = 0;
 	  
 			for(i = 0; i < result[1].length; i++){
 				if(formulario[i].length > 1){
@@ -45,8 +47,6 @@ $(document).ready(function() {
 						resultado++;
 				}
 			}
-	  
-			var resultado = 0;
 	  
 			var evitarError = "<div class='fin' align=left><br><p> El resultado obtenido ha sido de ".concat(resultado.toString().concat(" puntos.</p></div>"));
 	  
