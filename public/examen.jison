@@ -34,10 +34,8 @@
   }
   
   function comprobarRespVF() {
-	if(falso == 0)
-		throw new Error("Error! No se ha detectado ninguna respuesta falsa");
-	if(verdadero != 1)
-		throw new Error("Error! No puede haber más de una respuesta verdadera o no se ha detectado ninguna respuesta verdadera");
+	if(falso == 0 || verdadero != 1)
+		throw new Error("Verdadero-Falso mal definido. Ha de tener una respuesta verdadera y al menos una falsa.");
   }
   
   function comprobarMulti() {
