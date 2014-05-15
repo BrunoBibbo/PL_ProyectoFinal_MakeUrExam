@@ -14,6 +14,40 @@ $(document).ready(function() {
 
 			var cuantasV = 0;
 			var contadorV = 0;
+			var contadorF = 0;
+	  
+			for(i = 0; i < result[1].length; i++){
+				if(formulario[i].length > 1){
+					if(formulario[i][0].value == 'FM' || formulario[i][0].value == 'VM')
+						tipoRespuesta = 'multi';
+					else
+						tipoRespuesta = 'vf';
+					for(j = 0; j < formulario[i].length; j++){
+						if(formulario[i][j].value == 'V' || formulario[i][j].value == 'VM')
+							cuantasV++;
+						if(formulario[i][j].checked == true && formulario[i][j].value != 'F' && formulario[i][j].value != 'FM')
+							contadorV++;
+						if(formulario[i][j].checked == true && formulario[i][j].value == 'F' || formulario[i][j].value == 'FM')
+							contadorF++;
+					}
+		  
+					if(tipoRespuesta == 'multi')
+						if(contadorV > contadorF)
+							resultado = resultado + ((contadorV-contadorF)/cuantasV);
+				
+					if(tipoRespuesta == 'vf')
+						if(contadorV == 1)
+							resultado++;
+		  
+					contadorV = 0;
+					cuantasV = 0;
+				}
+	    
+				else{
+					if(result[1][i].toString().toLowerCase() == formulario[i][0].value.toString().toLowerCase())
+						resultado++;
+				}
+			}
 	  
 			var resultado = 0;
 	  
