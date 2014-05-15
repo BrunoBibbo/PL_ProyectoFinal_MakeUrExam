@@ -3,6 +3,9 @@ $(document).ready(function() {
     try {
       var result = examen.parse($('#input').val());
       $('#output').html(JSON.stringify(result[0],undefined,2));
+	  $('#corregir').click(function() {
+		console.log("entra");
+	  });
     } catch (e) {
       $('#output').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
     }
