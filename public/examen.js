@@ -135,7 +135,7 @@ case 7:
 		
 break;
 case 8: 
-		  this.$ = { HTML: "<input type='text' id=" + (nPregunta-total) + " size='15' name=" + (nPregunta-total) + "><br>", Resultados: $$[$0].Resultados };
+		  this.$ = { HTML: "<input type='text' size='15' name=" + (nPregunta-total) + "><br>", Resultados: $$[$0].Resultados };
 		  nPregunta++;
 		
 break;
@@ -180,23 +180,23 @@ case 11: this.$ = { HTML: $$[$0], Resultados: $$[$0] };
 break;
 case 13: 
 			sumarV();
-			this.$ = [{ HTML: "<input type='radio' id=" + (nPregunta-total) + " value='V' name=" + (nPregunta-total) + ">" + $$[$0-1] + ".<br>", Resultados: 'V' }].concat($$[$0]);
+			this.$ = [{ HTML: "<input type='radio' value='V' name=" + (nPregunta-total) + ">" + $$[$0-1] + ".<br>", Resultados: 'V' }].concat($$[$0]);
 		
 break;
 case 14: 
 			sumarF();
-			this.$ = [{ HTML: "<input type='radio' id=" + (nPregunta-total) + " value='F' name=" + (nPregunta-total) + ">" + $$[$0-1] + ".<br>", Resultados: 'F' }].concat($$[$0]);
+			this.$ = [{ HTML: "<input type='radio' value='F' name=" + (nPregunta-total) + ">" + $$[$0-1] + ".<br>", Resultados: 'F' }].concat($$[$0]);
 		
 break;
 case 16: 
 			sumarV();
 			sumarMulti();
-			this.$ = [{ HTML: "<input type='checkbox' id=" + (nPregunta-total) + " value='VM' name=" + (nPregunta-total) + ">" + $$[$0-1] + ".<br>", Resultados: 'VM' }].concat($$[$0]);
+			this.$ = [{ HTML: "<input type='checkbox' value='VM' name=" + (nPregunta-total) + ">" + $$[$0-1] + ".<br>", Resultados: 'VM' }].concat($$[$0]);
 		
 break;
 case 17: 
 			sumarMulti();
-			this.$ = [{ HTML: "<input type='checkbox' id=" + (nPregunta-total) + " value='FM' name=" + (nPregunta-total) + ">" + $$[$0-1] + ".<br>", Resultados: 'FM' }].concat($$[$0]);
+			this.$ = [{ HTML: "<input type='checkbox' value='FM' name=" + (nPregunta-total) + ">" + $$[$0-1] + ".<br>", Resultados: 'FM' }].concat($$[$0]);
 		
 break;
 }

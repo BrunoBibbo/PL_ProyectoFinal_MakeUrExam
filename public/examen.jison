@@ -118,7 +118,7 @@ pregunta
 tiporespuesta
 	: TEXTO DOSPUNTOS respuesta
 		{ 
-		  $$ = { HTML: "<input type='text' id=" + (nPregunta-total) + " size='15' name=" + (nPregunta-total) + "><br>", Resultados: $3.Resultados };
+		  $$ = { HTML: "<input type='text' size='15' name=" + (nPregunta-total) + "><br>", Resultados: $3.Resultados };
 		  nPregunta++;
 		}
 	| VF DOSPUNTOS respuestas_vf
@@ -170,12 +170,12 @@ respuestas_vf
 	| V DOSPUNTOS ID respuestas_vf
 		{ 
 			sumarV();
-			$$ = [{ HTML: "<input type='radio' id=" + (nPregunta-total) + " value='V' name=" + (nPregunta-total) + ">" + $3 + ".<br>", Resultados: 'V' }].concat($4);
+			$$ = [{ HTML: "<input type='radio' value='V' name=" + (nPregunta-total) + ">" + $3 + ".<br>", Resultados: 'V' }].concat($4);
 		}
 	| F DOSPUNTOS ID respuestas_vf
 		{ 
 			sumarF();
-			$$ = [{ HTML: "<input type='radio' id=" + (nPregunta-total) + " value='F' name=" + (nPregunta-total) + ">" + $3 + ".<br>", Resultados: 'F' }].concat($4);
+			$$ = [{ HTML: "<input type='radio' value='F' name=" + (nPregunta-total) + ">" + $3 + ".<br>", Resultados: 'F' }].concat($4);
 		}
 	;
 	
@@ -185,11 +185,11 @@ respuestas_multi
 		{ 
 			sumarV();
 			sumarMulti();
-			$$ = [{ HTML: "<input type='checkbox' id=" + (nPregunta-total) + " value='VM' name=" + (nPregunta-total) + ">" + $3 + ".<br>", Resultados: 'VM' }].concat($4);
+			$$ = [{ HTML: "<input type='checkbox' value='VM' name=" + (nPregunta-total) + ">" + $3 + ".<br>", Resultados: 'VM' }].concat($4);
 		}
 	| F DOSPUNTOS ID respuestas_multi
 		{ 
 			sumarMulti();
-			$$ = [{ HTML: "<input type='checkbox' id=" + (nPregunta-total) + " value='FM' name=" + (nPregunta-total) + ">" + $3 + ".<br>", Resultados: 'FM' }].concat($4);
+			$$ = [{ HTML: "<input type='checkbox' value='FM' name=" + (nPregunta-total) + ">" + $3 + ".<br>", Resultados: 'FM' }].concat($4);
 		}
 	;
