@@ -13,6 +13,8 @@ $(document).ready(function() {
 			console.log(formulario);
 			console.log(result[1]);
 	  
+		} catch (e) {
+			$('#output').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
 		}
 	  });
     } catch (e) {
