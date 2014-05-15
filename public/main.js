@@ -48,7 +48,7 @@ $(document).ready(function() {
 				}
 			}
 	  
-			var evitarError = "<div class='fin' align=left><br><p> El resultado obtenido ha sido de ".concat(resultado.toString().concat(" puntos.</p></div>"));
+			var evitarError = "<div class='fin' align=left><br><p><strong> El resultado obtenido ha sido de ".concat(resultado.toString().concat(" puntos.</strong></p></div>"));
 	  
 			var resultadoTotal = result[0] + evitarError;
 	  
