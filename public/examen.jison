@@ -9,17 +9,14 @@
   var multi = 0;
   
   function sumarV() {
-	console.log("Entra en sumarV");
 	verdadero++;
   }
   
   function sumarF() {
-	console.log("Entra en sumarF");
 	falso++;
   }
   
   function sumarMulti(){
-	console.log("Entra en sumarMulti");
 	multi++;
   }
   
@@ -48,88 +45,140 @@
 
 %start test
 
-%% /* language grammar */
+%% /* Gramatica */
 
 test
-	: examen PUNTO
+	: examen EOF
 		{ 
-			$$ = $1; 
-			return [$$];
+			resetVF();
+			$$ = { HTML: "<div class='examen' align=left><form name='Prueba' id='prueba' method='post' action='#'>" + $1.HTML, Resultados: $1.Resultados };
+			$$.HTML += "<br><input type='button' id='corregir' value='Corregir'><br></form></div>";
+			resetVF();
+			return [$$.HTML, $$.Resultados];
 		}
 	;
 
 examen
-	: EXAMEN ID preguntas
-		{ $$ = { Tipo: $1, Nombre: $2, Preguntas: $3 }; }
+	: EXAMEN DOSPUNTOS ID preguntas
+		{ 
+			$$ = { HTML: "<br><h1><b>" + $3 + "</b></h1><br>" + $4.HTML, Resultados: $4.Resultados }; 
+		}
 	;
 
 preguntas
 	: pregunta
 		{ 
-			$$ = $1;
+			var html = $1.HTML;
+			var res;
+			
+			if($1.length > 1){
+			  html = "<strong>" + 1 + "." + "</strong>" + $1[0].HTML + "<br><br>";
+			  res = [$1[0].Resultados];
+			  for(i = 1; i < $1.length; i++){
+			    html += "<strong>" + (i+1) + "." + "</strong>" + $1[i].HTML + "<br><br>";
+			    res.push($1[i].Resultados);
+			  }
+			}
+			else{
+			  var html = $1.HTML;
+			  res = [$1.Resultados];
+			}
+			
+			$$ = { HTML: html, Resultados: res }; 
 		}
 	;
 	
 pregunta
 	: PREGUNTA LEFTQ ID RIGHTQ tiporespuesta pregunta
-		{ $$ = [{ Pregunta: $2 + $3 + $4, Respuestas: $5 }].concat($6); }
+		{ 
+		$$ = [{ HTML: "<strong>" + $2 + $3 + $4 + "</strong><br>" + $5.HTML, Resultados: $5.Resultados }].concat($6);
+		}
 	| PREGUNTA LEFTQ ID RIGHTQ tiporespuesta
-		{ $$ = { Pregunta: $2 + $3 + $4, Respuestas: $5 }; }
-	| PREGUNTA ID tiporespuesta pregunta
-		{ $$ = [{ Pregunta: $2, Respuestas: $3 }].concat($4); }
-	| PREGUNTA ID tiporespuesta
-		{ $$ = { Pregunta: $2, Respuestas: $3 }; }
+		{ 
+		$$ = { HTML: "<strong>" + $2 + $3 + $4 + "</strong><br>" + $5.HTML + "<br>", Resultados: $5.Resultados }; 
+		}
+	| PREGUNTA ID DOSPUNTOS tiporespuesta pregunta
+		{ 
+		$$ = [{ HTML: "<strong>" + $2 + $3 + "</strong><br>" + $4.HTML, Resultados: $4.Resultados }].concat($5);
+		}
+	| PREGUNTA ID DOSPUNTOS tiporespuesta
+		{ 
+		$$ = { HTML: "<strong>" + $2 + $3 + "</strong><br>" + $4.HTML + "<br>", Resultados: $4.Resultados };
+		}
 	;
 	
 tiporespuesta
-	: TEXTO respuesta
-		{ $$ = { Tipo: $1, Contenido: $2 }; }
-	| VF respuestas_vf
+	: TEXTO DOSPUNTOS respuesta
+		{ 
+		  $$ = { HTML: "<input type='text' size='15'><br>", Resultados: $3.Resultados };
+		}
+	| VF DOSPUNTOS respuestas_vf
 		{ 
 			comprobarRespVF();
+
+			var html = $3[0].HTML;
+			var res;
+			res = [$3[0].Resultados];
+			for(i = 1; i < $3.length; i++){
+			  if($3[i] != undefined){
+			    html += $3[i].HTML;
+			    res.push($3[i].Resultados);
+			  }
+			}
+
+			$$ = { HTML: html, Resultados: res };
 			resetVF();
-			$$ = { Tipo: $1, Contenido: $2 };
 		}
-	| MULTI respuestas_multi
-	        { 
+	| MULTI DOSPUNTOS respuestas_multi
+	    { 
 			comprobarMulti();
 			resetMulti();
-			$$ = { Tipo: $1, Contenido: $2 }; 
+			
+			var html = $3[0].HTML;
+			var res;
+			res = [$3[0].Resultados];
+			for(i = 1; i < $3.length; i++){
+			  if($3[i] != undefined){
+			    html += $3[i].HTML;
+			    res.push($3[i].Resultados);
+			  }
+			}
+
+			$$ = { HTML: html, Resultados: res };
+			resetMulti();
 		}
 	;
 
 respuesta
 	: ID
-		{ $$ = $1; }
+		{ $$ = { HTML: $1, Resultados: $1 }; }
 	;
 
 respuestas_vf
 	: /* empty */
-		{ $$ = []; }
-	| V ID respuestas_vf
+	| V DOSPUNTOS ID respuestas_vf
 		{ 
 			sumarV();
-			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
+			$$ = [{ HTML: "<input type='radio' value='V'>" + $3 + ".<br>", Resultados: 'V' }].concat($4);
 		}
-	| F ID respuestas_vf
+	| F DOSPUNTOS ID respuestas_vf
 		{ 
 			sumarF();
-			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
+			$$ = [{ HTML: "<input type='radio' value='F' >" + $3 + ".<br>", Resultados: 'F' }].concat($4);
 		}
 	;
 	
 respuestas_multi
 	: /* empty */
-		{ $$ = []; }
-	| V ID respuestas_multi
+	| V DOSPUNTOS ID respuestas_multi
 		{ 
 			sumarV();
 			sumarMulti();
-			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
+			$$ = [{ HTML: "<input type='checkbox' value='VM'>" + $3 + ".<br>", Resultados: 'VM' }].concat($4);
 		}
-	| F ID respuestas_multi
+	| F DOSPUNTOS ID respuestas_multi
 		{ 
 			sumarMulti();
-			$$ = [{ Tipo: $1, Respuesta: $2 }].concat($3);
+			$$ = [{ HTML: "<input type='checkbox' value='FM'>" + $3 + ".<br>", Resultados: 'FM' }].concat($4);
 		}
 	;

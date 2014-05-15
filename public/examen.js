@@ -74,78 +74,128 @@
 var examen = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"test":3,"examen":4,"PUNTO":5,"EXAMEN":6,"ID":7,"preguntas":8,"pregunta":9,"PREGUNTA":10,"LEFTQ":11,"RIGHTQ":12,"tiporespuesta":13,"TEXTO":14,"respuesta":15,"VF":16,"respuestas_vf":17,"MULTI":18,"respuestas_multi":19,"V":20,"F":21,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"PUNTO",6:"EXAMEN",7:"ID",10:"PREGUNTA",11:"LEFTQ",12:"RIGHTQ",14:"TEXTO",16:"VF",18:"MULTI",20:"V",21:"F"},
-productions_: [0,[3,2],[4,3],[8,1],[9,6],[9,5],[9,4],[9,3],[13,2],[13,2],[13,2],[15,1],[17,0],[17,3],[17,3],[19,0],[19,3],[19,3]],
+symbols_: {"error":2,"test":3,"examen":4,"EOF":5,"EXAMEN":6,"DOSPUNTOS":7,"ID":8,"preguntas":9,"pregunta":10,"PREGUNTA":11,"LEFTQ":12,"RIGHTQ":13,"tiporespuesta":14,"TEXTO":15,"respuesta":16,"VF":17,"respuestas_vf":18,"MULTI":19,"respuestas_multi":20,"V":21,"F":22,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",6:"EXAMEN",7:"DOSPUNTOS",8:"ID",11:"PREGUNTA",12:"LEFTQ",13:"RIGHTQ",15:"TEXTO",17:"VF",19:"MULTI",21:"V",22:"F"},
+productions_: [0,[3,2],[4,4],[9,1],[10,6],[10,5],[10,5],[10,4],[14,3],[14,3],[14,3],[16,1],[18,0],[18,4],[18,4],[20,0],[20,4],[20,4]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1: 
-			this.$ = $$[$0-1]; 
-			return [this.$];
+			resetVF();
+			this.$ = { HTML: "<div class='examen' align=left><form name='Prueba' id='prueba' method='post' action='#'>" + $$[$0-1].HTML, Resultados: $$[$0-1].Resultados };
+			this.$.HTML += "<br><input type='button' id='corregir' value='Corregir'><br></form></div>";
+			resetVF();
+			return [this.$.HTML, this.$.Resultados];
 		
 break;
-case 2: this.$ = { Tipo: $$[$0-2], Nombre: $$[$0-1], Preguntas: $$[$0] }; 
+case 2: 
+			this.$ = { HTML: "<br><h1><b>" + $$[$0-1] + "</b></h1><br>" + $$[$0].HTML, Resultados: $$[$0].Resultados }; 
+		
 break;
 case 3: 
-			this.$ = $$[$0];
+			var html = $$[$0].HTML;
+			var res;
+			
+			if($$[$0].length > 1){
+			  html = "<strong>" + 1 + "." + "</strong>" + $$[$0][0].HTML + "<br><br>";
+			  res = [$$[$0][0].Resultados];
+			  for(i = 1; i < $$[$0].length; i++){
+			    html += "<strong>" + (i+1) + "." + "</strong>" + $$[$0][i].HTML + "<br><br>";
+			    res.push($$[$0][i].Resultados);
+			  }
+			}
+			else{
+			  var html = $$[$0].HTML;
+			  res = [$$[$0].Resultados];
+			}
+			
+			this.$ = { HTML: html, Resultados: res }; 
 		
 break;
-case 4: this.$ = [{ Pregunta: $$[$0-4] + $$[$0-3] + $$[$0-2], Respuestas: $$[$0-1] }].concat($$[$0]); 
+case 4: 
+		this.$ = [{ HTML: "<strong>" + $$[$0-4] + $$[$0-3] + $$[$0-2] + "</strong><br>" + $$[$0-1].HTML, Resultados: $$[$0-1].Resultados }].concat($$[$0]);
+		
 break;
-case 5: this.$ = { Pregunta: $$[$0-3] + $$[$0-2] + $$[$0-1], Respuestas: $$[$0] }; 
+case 5: 
+		this.$ = { HTML: "<strong>" + $$[$0-3] + $$[$0-2] + $$[$0-1] + "</strong><br>" + $$[$0].HTML + "<br>", Resultados: $$[$0].Resultados }; 
+		
 break;
-case 6: this.$ = [{ Pregunta: $$[$0-2], Respuestas: $$[$0-1] }].concat($$[$0]); 
+case 6: 
+		this.$ = [{ HTML: "<strong>" + $$[$0-3] + $$[$0-2] + "</strong><br>" + $$[$0-1].HTML, Resultados: $$[$0-1].Resultados }].concat($$[$0]);
+		
 break;
-case 7: this.$ = { Pregunta: $$[$0-1], Respuestas: $$[$0] }; 
+case 7: 
+		this.$ = { HTML: "<strong>" + $$[$0-2] + $$[$0-1] + "</strong><br>" + $$[$0].HTML + "<br>", Resultados: $$[$0].Resultados };
+		
 break;
-case 8: this.$ = { Tipo: $$[$0-1], Contenido: $$[$0] }; 
+case 8: 
+		  this.$ = { HTML: "<input type='text' size='15'><br>", Resultados: $$[$0].Resultados };
+		
 break;
 case 9: 
 			comprobarRespVF();
+
+			var html = $$[$0][0].HTML;
+			var res;
+			res = [$$[$0][0].Resultados];
+			for(i = 1; i < $$[$0].length; i++){
+			  if($$[$0][i] != undefined){
+			    html += $$[$0][i].HTML;
+			    res.push($$[$0][i].Resultados);
+			  }
+			}
+
+			this.$ = { HTML: html, Resultados: res };
 			resetVF();
-			this.$ = { Tipo: $$[$0-1], Contenido: $$[$0] };
 		
 break;
 case 10: 
 			comprobarMulti();
 			resetMulti();
-			this.$ = { Tipo: $$[$0-1], Contenido: $$[$0] }; 
+			
+			var html = $$[$0][0].HTML;
+			var res;
+			res = [$$[$0][0].Resultados];
+			for(i = 1; i < $$[$0].length; i++){
+			  if($$[$0][i] != undefined){
+			    html += $$[$0][i].HTML;
+			    res.push($$[$0][i].Resultados);
+			  }
+			}
+
+			this.$ = { HTML: html, Resultados: res };
+			resetMulti();
 		
 break;
-case 11: this.$ = $$[$0]; 
-break;
-case 12: this.$ = []; 
+case 11: this.$ = { HTML: $$[$0], Resultados: $$[$0] }; 
 break;
 case 13: 
 			sumarV();
-			this.$ = [{ Tipo: $$[$0-2], Respuesta: $$[$0-1] }].concat($$[$0]);
+			this.$ = [{ HTML: "<input type='radio' value='V'>" + $$[$0-1] + ".<br>", Resultados: 'V' }].concat($$[$0]);
 		
 break;
 case 14: 
 			sumarF();
-			this.$ = [{ Tipo: $$[$0-2], Respuesta: $$[$0-1] }].concat($$[$0]);
+			this.$ = [{ HTML: "<input type='radio' value='F' >" + $$[$0-1] + ".<br>", Resultados: 'F' }].concat($$[$0]);
 		
-break;
-case 15: this.$ = []; 
 break;
 case 16: 
 			sumarV();
 			sumarMulti();
-			this.$ = [{ Tipo: $$[$0-2], Respuesta: $$[$0-1] }].concat($$[$0]);
+			this.$ = [{ HTML: "<input type='checkbox' value='VM'>" + $$[$0-1] + ".<br>", Resultados: 'VM' }].concat($$[$0]);
 		
 break;
 case 17: 
 			sumarMulti();
-			this.$ = [{ Tipo: $$[$0-2], Respuesta: $$[$0-1] }].concat($$[$0]);
+			this.$ = [{ HTML: "<input type='checkbox' value='FM'>" + $$[$0-1] + ".<br>", Resultados: 'FM' }].concat($$[$0]);
 		
 break;
 }
 },
-table: [{3:1,4:2,6:[1,3]},{1:[3]},{5:[1,4]},{7:[1,5]},{1:[2,1]},{8:6,9:7,10:[1,8]},{5:[2,2]},{5:[2,3]},{7:[1,10],11:[1,9]},{7:[1,11]},{13:12,14:[1,13],16:[1,14],18:[1,15]},{12:[1,16]},{5:[2,7],9:17,10:[1,8]},{7:[1,19],15:18},{5:[2,12],10:[2,12],17:20,20:[1,21],21:[1,22]},{5:[2,15],10:[2,15],19:23,20:[1,24],21:[1,25]},{13:26,14:[1,13],16:[1,14],18:[1,15]},{5:[2,6]},{5:[2,8],10:[2,8]},{5:[2,11],10:[2,11]},{5:[2,9],10:[2,9]},{7:[1,27]},{7:[1,28]},{5:[2,10],10:[2,10]},{7:[1,29]},{7:[1,30]},{5:[2,5],9:31,10:[1,8]},{5:[2,12],10:[2,12],17:32,20:[1,21],21:[1,22]},{5:[2,12],10:[2,12],17:33,20:[1,21],21:[1,22]},{5:[2,15],10:[2,15],19:34,20:[1,24],21:[1,25]},{5:[2,15],10:[2,15],19:35,20:[1,24],21:[1,25]},{5:[2,4]},{5:[2,13],10:[2,13]},{5:[2,14],10:[2,14]},{5:[2,16],10:[2,16]},{5:[2,17],10:[2,17]}],
-defaultActions: {4:[2,1],6:[2,2],7:[2,3],17:[2,6],31:[2,4]},
+table: [{3:1,4:2,6:[1,3]},{1:[3]},{5:[1,4]},{7:[1,5]},{1:[2,1]},{8:[1,6]},{9:7,10:8,11:[1,9]},{5:[2,2]},{5:[2,3]},{8:[1,11],12:[1,10]},{8:[1,12]},{7:[1,13]},{13:[1,14]},{14:15,15:[1,16],17:[1,17],19:[1,18]},{14:19,15:[1,16],17:[1,17],19:[1,18]},{5:[2,7],10:20,11:[1,9]},{7:[1,21]},{7:[1,22]},{7:[1,23]},{5:[2,5],10:24,11:[1,9]},{5:[2,6]},{8:[1,26],16:25},{5:[2,12],11:[2,12],18:27,21:[1,28],22:[1,29]},{5:[2,15],11:[2,15],20:30,21:[1,31],22:[1,32]},{5:[2,4]},{5:[2,8],11:[2,8]},{5:[2,11],11:[2,11]},{5:[2,9],11:[2,9]},{7:[1,33]},{7:[1,34]},{5:[2,10],11:[2,10]},{7:[1,35]},{7:[1,36]},{8:[1,37]},{8:[1,38]},{8:[1,39]},{8:[1,40]},{5:[2,12],11:[2,12],18:41,21:[1,28],22:[1,29]},{5:[2,12],11:[2,12],18:42,21:[1,28],22:[1,29]},{5:[2,15],11:[2,15],20:43,21:[1,31],22:[1,32]},{5:[2,15],11:[2,15],20:44,21:[1,31],22:[1,32]},{5:[2,13],11:[2,13]},{5:[2,14],11:[2,14]},{5:[2,16],11:[2,16]},{5:[2,17],11:[2,17]}],
+defaultActions: {4:[2,1],7:[2,2],8:[2,3],20:[2,6],24:[2,4]},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -290,17 +340,14 @@ parse: function parse(input) {
   var multi = 0;
   
   function sumarV() {
-	console.log("Entra en sumarV");
 	verdadero++;
   }
   
   function sumarF() {
-	console.log("Entra en sumarF");
 	falso++;
   }
   
   function sumarMulti(){
-	console.log("Entra en sumarMulti");
 	multi++;
   }
   
@@ -662,19 +709,19 @@ var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
 case 0:/* skip whitespace and comments */
 break;
-case 1:return 11
+case 1:return 12
 break;
-case 2:return 12
+case 2:return 13
 break;
-case 3:return 'DOSPUNTOS'
+case 3:return 7
 break;
 case 4:return idORrw(yy_.yytext)
 break;
 case 5:return yy_.yytext;
 break;
-case 6:return 'EOF'
+case 6:return 5
 break;
-case 7:return 5
+case 7:return 'PUNTO'
 break;
 }
 },
